@@ -8,6 +8,7 @@ public class ControllerManager : MonoBehaviour {
    public GameObject sphere;
    public GameObject messageCanvas;
    public Text messageText;
+   public Fade fade;
 
    private bool dragging;
 
@@ -33,7 +34,11 @@ public class ControllerManager : MonoBehaviour {
 
       if (dragging) {
          if (GvrController.TouchUp) {
-	    ChangeTexture("hikagami");
+	    fade.FadeIn(1, () => {
+	       ChangeTexture("hikagami");
+	       fade.FadeOut(1);
+	    });
+	    //ChangeTexture("hikagami");
 	    EndDragging();
 	 }
       } else {

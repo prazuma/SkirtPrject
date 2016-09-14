@@ -20,7 +20,10 @@ public class ControllerManager : MonoBehaviour {
 
    // Use this for initialization
    void Start () {
-      UpdatePointer();
+      //UpdatePointer();
+   }
+
+   void Awake () {
    }
 	
    // Update is called once per frame
@@ -40,14 +43,25 @@ public class ControllerManager : MonoBehaviour {
 
       if (dragging) {
          if (GvrController.TouchUp) {
+	 /*
 	    fade.FadeIn(1, () => {
 	       ChangeTexture("hikagami");
-	       ChangeQuadTexture();
 	       fade.FadeOut(1);
 	    });
+	    */
 	    EndDragging();
 	 }
       } else {
+         RaycastHit hitInfo;
+	 Vector3 rayDirection = GvrController.Orientation * Vector3.forward;
+	 if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
+	    if (hitInfo.collider && hitInfo.collider.gameObject) {
+	       messageText.text = hitInfo.collider.gameObject.name;
+               messageText.color = Color.white;
+               messageCanvas.SetActive(true);
+	       ChangeQuadTexture();
+	    }
+	 }
          if (GvrController.TouchDown) {
 	    StartDragging();
 	 }

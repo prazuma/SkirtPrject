@@ -10,7 +10,6 @@ public class ControllerManager : MonoBehaviour {
    public GameObject quad;
    public Text messageText;
    public Fade fade;
-   public GameObject mainCamera;
 
    public Material selectedMaterial;
 
@@ -85,6 +84,8 @@ public class ControllerManager : MonoBehaviour {
 	    ChangeTexture("hikagami");
 	    fade.FadeOut(1);
 	 });
+      } else if (selectedObject.name == "DiscriptionPoint") {
+         selectedObject.transform.FindChild("DiscriptionCanvas").gameObject.SetActive(true);
       }
       dragging = false;
    }

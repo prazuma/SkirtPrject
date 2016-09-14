@@ -7,9 +7,12 @@ public class ControllerManager : MonoBehaviour {
    public GameObject controllerPivot;
    public GameObject sphere;
    public GameObject messageCanvas;
+   public GameObject quad;
    public Text messageText;
    public Fade fade;
    public GameObject mainCamera;
+
+   public Material selectedMaterial;
 
    private bool dragging;
 
@@ -39,6 +42,7 @@ public class ControllerManager : MonoBehaviour {
          if (GvrController.TouchUp) {
 	    fade.FadeIn(1, () => {
 	       ChangeTexture("hikagami");
+	       ChangeQuadTexture();
 	       fade.FadeOut(1);
 	    });
 	    EndDragging();
@@ -48,6 +52,10 @@ public class ControllerManager : MonoBehaviour {
 	    StartDragging();
 	 }
       }
+   }
+
+   private void ChangeQuadTexture () {
+      quad.GetComponent<Renderer>().material = selectedMaterial;
    }
 
    private void ChangeTexture (string texture_image_name) {

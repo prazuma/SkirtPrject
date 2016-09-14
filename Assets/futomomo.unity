@@ -260,6 +260,7 @@ MonoBehaviour:
   messageCanvas: {fileID: 2068027347}
   messageText: {fileID: 1851133270}
   fade: {fileID: 632147266}
+  mainCamera: {fileID: 952329857}
 --- !u!4 &668082565
 Transform:
   m_ObjectHideFlags: 0

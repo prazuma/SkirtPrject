@@ -9,6 +9,7 @@ public class ControllerManager : MonoBehaviour {
    public GameObject messageCanvas;
    public Text messageText;
    public Fade fade;
+   public GameObject mainCamera;
 
    private bool dragging;
 
@@ -38,7 +39,6 @@ public class ControllerManager : MonoBehaviour {
 	       ChangeTexture("hikagami");
 	       fade.FadeOut(1);
 	    });
-	    //ChangeTexture("hikagami");
 	    EndDragging();
 	 }
       } else {

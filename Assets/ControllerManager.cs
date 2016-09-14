@@ -15,16 +15,16 @@ public class ControllerManager : MonoBehaviour {
 
    private const string TEXTURE_PATH = "Textures/";
 
-	// Use this for initialization
-	void Start () {
-		UpdatePointer();
-	}
+   // Use this for initialization
+   void Start () {
+      UpdatePointer();
+   }
 	
-	// Update is called once per frame
-	void Update () {
-		UpdatePointer();
-		UpdateStatusMessage();
-	}
+   // Update is called once per frame
+   void Update () {
+      UpdatePointer();
+      UpdateStatusMessage();
+   }
 
    private void UpdatePointer () {
       if (GvrController.State != GvrConnectionState.Connected) {
@@ -70,36 +70,36 @@ public class ControllerManager : MonoBehaviour {
       messageCanvas.SetActive(true);
    }
 
-  private void UpdateStatusMessage() {
-    // This is an example of how to process the controller's state to display a status message.
-    switch (GvrController.State) {
-      case GvrConnectionState.Connected:
-	//messageCanvas.SetActive(false);
-        break;
-      case GvrConnectionState.Disconnected:
-        messageText.text = "Controller disconnected.";
-        messageText.color = Color.white;
-        messageCanvas.SetActive(true);
-        break;
-      case GvrConnectionState.Scanning:
-        messageText.text = "Controller scanning...";
-        messageText.color = Color.cyan;
-        messageCanvas.SetActive(true);
-        break;
-      case GvrConnectionState.Connecting:
-        messageText.text = "Controller connecting...";
-        messageText.color = Color.yellow;
-        messageCanvas.SetActive(true);
-        break;
-      case GvrConnectionState.Error:
-        messageText.text = "ERROR: " + GvrController.ErrorDetails;
-        //messageText.color = Color.red;
-        messageCanvas.SetActive(true);
-        break;
-      default:
-        // Shouldn't happen.
-        Debug.LogError("Invalid controller state: " + GvrController.State);
-        break;
-    }
-  }
+   private void UpdateStatusMessage() {
+      // This is an example of how to process the controller's state to display a status message.
+      switch (GvrController.State) {
+         case GvrConnectionState.Connected:
+	    //messageCanvas.SetActive(false);
+            break;
+         case GvrConnectionState.Disconnected:
+            messageText.text = "Controller disconnected.";
+            messageText.color = Color.white;
+            messageCanvas.SetActive(true);
+       　 　 break;
+　       case GvrConnectionState.Scanning:
+            messageText.text = "Controller scanning...";
+            messageText.color = Color.cyan;
+            messageCanvas.SetActive(true);
+            break;
+         case GvrConnectionState.Connecting:
+            messageText.text = "Controller connecting...";
+            messageText.color = Color.yellow;
+            messageCanvas.SetActive(true);
+            break;
+         case GvrConnectionState.Error:
+            messageText.text = "ERROR: " + GvrController.ErrorDetails;
+            messageText.color = Color.red;
+            messageCanvas.SetActive(true);
+            break;
+         default:
+            // Shouldn't happen.
+            Debug.LogError("Invalid controller state: " + GvrController.State);
+            break;
+       }
+   }
 }

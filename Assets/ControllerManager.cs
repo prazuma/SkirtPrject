@@ -18,6 +18,8 @@ public class ControllerManager : MonoBehaviour {
 
    private const string TEXTURE_PATH = "Textures/";
 
+   private GameObject selectedObject;
+
    // Use this for initialization
    void Start () {
       //UpdatePointer();
@@ -43,12 +45,6 @@ public class ControllerManager : MonoBehaviour {
 
       if (dragging) {
          if (GvrController.TouchUp) {
-	 /*
-	    fade.FadeIn(1, () => {
-	       ChangeTexture("hikagami");
-	       fade.FadeOut(1);
-	    });
-	    */
 	    EndDragging();
 	 }
       } else {
@@ -56,13 +52,14 @@ public class ControllerManager : MonoBehaviour {
 	 Vector3 rayDirection = GvrController.Orientation * Vector3.forward;
 	 if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
 	    if (hitInfo.collider && hitInfo.collider.gameObject) {
+	       selectedObject = hitInfo.collider.gameObject;
 	       messageText.text = hitInfo.collider.gameObject.name;
                messageText.color = Color.white;
                messageCanvas.SetActive(true);
 	       ChangeQuadTexture();
 	    }
 	 }
-         if (GvrController.TouchDown) {
+         if (GvrController.TouchDown && selectedObject != null) {
 	    StartDragging();
 	 }
       }
@@ -83,6 +80,12 @@ public class ControllerManager : MonoBehaviour {
    }
 
    private void EndDragging () {
+      if (selectedObject.name == "Move") {
+         fade.FadeIn(1, () => {
+	    ChangeTexture("hikagami");
+	    fade.FadeOut(1);
+	 });
+      }
       dragging = false;
    }
 

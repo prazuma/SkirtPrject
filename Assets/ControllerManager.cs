@@ -31,7 +31,9 @@ public class ControllerManager : MonoBehaviour {
          controllerPivot.SetActive(false);
       }
       controllerPivot.SetActive(true);
-      controllerPivot.transform.rotation = GvrController.Orientation;
+      Quaternion controller_orientation = GvrController.Orientation;
+      DisplayControllerPosition(controller_orientation);
+      controllerPivot.transform.rotation = controller_orientation;
 
       if (dragging) {
          if (GvrController.TouchUp) {
@@ -62,11 +64,17 @@ public class ControllerManager : MonoBehaviour {
       dragging = false;
    }
 
+   private void DisplayControllerPosition (Quaternion controller_orientation) {
+      messageText.text = controller_orientation.ToString();
+      messageText.color = Color.white;
+      messageCanvas.SetActive(true);
+   }
+
   private void UpdateStatusMessage() {
     // This is an example of how to process the controller's state to display a status message.
     switch (GvrController.State) {
       case GvrConnectionState.Connected:
-	messageCanvas.SetActive(false);
+	//messageCanvas.SetActive(false);
         break;
       case GvrConnectionState.Disconnected:
         messageText.text = "Controller disconnected.";

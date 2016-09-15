@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,10 +22,6 @@ public class ControllerManager : MonoBehaviour {
 
    // Use this for initialization
    void Start () {
-      //UpdatePointer();
-   }
-
-   void Awake () {
    }
 	
    // Update is called once per frame
@@ -80,10 +77,7 @@ public class ControllerManager : MonoBehaviour {
 
    private void EndDragging () {
       if (selectedObject.name == "Move") {
-         fade.FadeIn(1, () => {
-	    ChangeTexture("hikagami");
-	    fade.FadeOut(1);
-	 });
+         SceneManager.LoadScene("futomomo2");
       } else if (selectedObject.name == "DiscriptionPoint") {
          selectedObject.transform.FindChild("DiscriptionCanvas").gameObject.SetActive(true);
       }

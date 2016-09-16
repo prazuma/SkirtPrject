@@ -49,9 +49,11 @@ public class ControllerManager : MonoBehaviour {
 	 if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
 	    if (hitInfo.collider && hitInfo.collider.gameObject) {
 	       selectedObject = hitInfo.collider.gameObject;
+	       /*
 	       messageText.text = hitInfo.collider.gameObject.name;
                messageText.color = Color.white;
                messageCanvas.SetActive(true);
+	       */
 	       ChangeQuadTexture();
 	    }
 	 }

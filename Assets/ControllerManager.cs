@@ -56,6 +56,7 @@ public class ControllerManager : MonoBehaviour {
 	          isMove = true;
 	       } else if (type == "discription") {
 	          isDiscription = true;
+		  selectedObject.transform.FindChild("DiscriptionCanvas").gameObject.SetActive(true);
 	       }
 	       //ChangeQuadTexture();
 	    }
@@ -63,11 +64,9 @@ public class ControllerManager : MonoBehaviour {
       }
       if (GvrController.TouchUp) {
          if (isMove == true) {
-	    string next_location_name = selectedObject.GetComponent<Location>().getNextLocationName();
-	    SceneManager.LoadScene(next_location_name);
-	    isMove = false;
+	    goNextLocation();
 	 } else if (isDiscription == true) {
-	    
+	    showDiscription();
 	 }
       }
 /*
@@ -96,6 +95,17 @@ public class ControllerManager : MonoBehaviour {
 
    private void ChangeQuadTexture () {
       quad.GetComponent<Renderer>().material = selectedMaterial;
+   }
+
+   private void goNextLocation () {
+      string next_location_name = selectedObject.GetComponent<Location>().getNextLocationName();
+      SceneManager.LoadScene(next_location_name);
+      isMove = false;
+   }
+
+　 private void showDiscription() {
+      selectedObject.transform.FindChild("DiscriptionCanvas").gameObject.SetActive(false);
+      isDiscription = false;
    }
 
    private void ChangeTexture (string texture_image_name) {

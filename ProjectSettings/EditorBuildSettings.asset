@@ -9,5 +9,3 @@ EditorBuildSettings:
     path: Assets/futomomo.unity
   - enabled: 1
     path: Assets/futomomo2.unity
-  - enabled: 1
-    path: Assets/second.unity

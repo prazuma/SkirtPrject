@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Location : MonoBehaviour {
+public class Location : Type {
 
    public string next_location_name;
-   private string type = "location";
-
+   
 　　// Use this for initialization
    void Start () {
-		
+      setType("location");
    }
 	
    // Update is called once per frame
    void Update () {
-
    }
 
-   public string getType () {
-      return type;
+   public string getNextLocationName () {
+      return next_location_name;
    }
 }

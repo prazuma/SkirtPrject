@@ -490,6 +490,7 @@ GameObject:
   - component: {fileID: 1013894371}
   - component: {fileID: 1013894370}
   - component: {fileID: 1013894374}
+  - component: {fileID: 1013894375}
   m_Layer: 0
   m_Name: Move
   m_TagString: Untagged
@@ -573,7 +574,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89524b84d8724db1b8f3d9fc8fbfa7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  next_location_name: fotomomo2
+  next_location_name: futomomo2
+--- !u!114 &1013894375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1013894369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28d3a31b9cc34277968a174c427abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1112980361
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,7 +1073,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1615760395
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -20,6 +20,12 @@ public class ControllerManager : MonoBehaviour {
 
    private GameObject selectedObject;
 
+   private string type;
+
+   private bool isMove;
+
+   private bool isDiscription;
+
    // Use this for initialization
    void Start () {
    }
@@ -39,6 +45,32 @@ public class ControllerManager : MonoBehaviour {
       DisplayControllerPosition(controller_orientation);
       controllerPivot.transform.rotation = controller_orientation;
 
+      if (GvrController.TouchDown) {
+         RaycastHit hitInfo;
+	 Vector3 rayDirection = GvrController.Orientation * Vector3.forward;
+	 if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
+	    if (hitInfo.collider && hitInfo.collider.gameObject) {
+	       selectedObject = hitInfo.collider.gameObject;
+	       string type = selectedObject.GetComponent<Type>().getType();
+	       if (type == "location") {
+	          isMove = true;
+	       } else if (type == "discription") {
+	          isDiscription = true;
+	       }
+	       //ChangeQuadTexture();
+	    }
+	 }
+      }
+      if (GvrController.TouchUp) {
+         if (isMove == true) {
+	    string next_location_name = selectedObject.GetComponent<Location>().getNextLocationName();
+	    SceneManager.LoadScene(next_location_name);
+	    isMove = false;
+	 } else if (isDiscription == true) {
+	    
+	 }
+      }
+/*
       if (dragging) {
          if (GvrController.TouchUp) {
 	    EndDragging();
@@ -49,11 +81,9 @@ public class ControllerManager : MonoBehaviour {
 	 if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
 	    if (hitInfo.collider && hitInfo.collider.gameObject) {
 	       selectedObject = hitInfo.collider.gameObject;
-	       /*
 	       messageText.text = hitInfo.collider.gameObject.name;
                messageText.color = Color.white;
                messageCanvas.SetActive(true);
-	       */
 	       ChangeQuadTexture();
 	    }
 	 }
@@ -61,6 +91,7 @@ public class ControllerManager : MonoBehaviour {
 	    StartDragging();
 	 }
       }
+      */
    }
 
    private void ChangeQuadTexture () {

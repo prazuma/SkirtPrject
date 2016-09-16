@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ControllerManager : MonoBehaviour {
    public GameObject controllerPivot;
-   public GameObject sphere;
    public GameObject messageCanvas;
    public GameObject quad;
    public Text messageText;
@@ -13,18 +13,14 @@ public class ControllerManager : MonoBehaviour {
 
    public Material selectedMaterial;
 
-   private bool dragging;
-
-   private const string TEXTURE_PATH = "Textures/";
-
    private GameObject selectedObject;
+
+   private string type;
+   private bool isLocationSelected;
+   private bool isDiscriptionSelected;
 
    // Use this for initialization
    void Start () {
-      //UpdatePointer();
-   }
-
-   void Awake () {
    }
 	
    // Update is called once per frame
@@ -42,24 +38,28 @@ public class ControllerManager : MonoBehaviour {
       DisplayControllerPosition(controller_orientation);
       controllerPivot.transform.rotation = controller_orientation;
 
-      if (dragging) {
-         if (GvrController.TouchUp) {
-	    EndDragging();
-	 }
-      } else {
+      if (GvrController.TouchDown) {
          RaycastHit hitInfo;
 	 Vector3 rayDirection = GvrController.Orientation * Vector3.forward;
 	 if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
 	    if (hitInfo.collider && hitInfo.collider.gameObject) {
 	       selectedObject = hitInfo.collider.gameObject;
-	       messageText.text = hitInfo.collider.gameObject.name;
-               messageText.color = Color.white;
-               messageCanvas.SetActive(true);
-	       ChangeQuadTexture();
+	       string type = selectedObject.GetComponent<Type>().getType();
+	       if (type == "location") {
+	          isLocationSelected = true;
+	       } else if (type == "discription") {
+	          isDiscriptionSelected = true;
+		  selectedObject.transform.FindChild("DiscriptionCanvas").gameObject.SetActive(true);
+	       }
+	       //ChangeQuadTexture();
 	    }
 	 }
-         if (GvrController.TouchDown && selectedObject != null) {
-	    StartDragging();
+      }
+      if (GvrController.TouchUp) {
+         if (isLocationSelected == true) {
+	    goNextLocation();
+	 } else if (isDiscriptionSelected == true) {
+	    showDiscription();
 	 }
       }
    }
@@ -68,26 +68,15 @@ public class ControllerManager : MonoBehaviour {
       quad.GetComponent<Renderer>().material = selectedMaterial;
    }
 
-   private void ChangeTexture (string texture_image_name) {
-      string texture = TEXTURE_PATH + texture_image_name;
-      Texture2D TEXTURE = Resources.Load<Texture2D>(texture);
-      sphere.GetComponent<Renderer>().material.mainTexture = TEXTURE;
+   private void goNextLocation () {
+      string next_location_name = selectedObject.GetComponent<Location>().getNextLocationName();
+      SceneManager.LoadScene(next_location_name);
+      isLocationSelected = false;
    }
 
-   private void StartDragging () {
-      dragging = true;
-   }
-
-   private void EndDragging () {
-      if (selectedObject.name == "Move") {
-         fade.FadeIn(1, () => {
-	    ChangeTexture("hikagami");
-	    fade.FadeOut(1);
-	 });
-      } else if (selectedObject.name == "DiscriptionPoint") {
-         selectedObject.transform.FindChild("DiscriptionCanvas").gameObject.SetActive(true);
-      }
-      dragging = false;
+　 private void showDiscription() {
+      selectedObject.transform.FindChild("DiscriptionCanvas").gameObject.SetActive(false);
+      isDiscriptionSelected = false;
    }
 
    private void DisplayControllerPosition (Quaternion controller_orientation) {

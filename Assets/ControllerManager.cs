@@ -7,8 +7,10 @@ using UnityEngine.SceneManagement;
 public class ControllerManager : MonoBehaviour {
    public GameObject controllerPivot;
    public GameObject messageCanvas;
-   public GameObject quad;
    public Text messageText;
+   public GameObject quad;
+   public GameObject discriptionCanvas;
+   public Text discriptionText;
    public Fade fade;
 
    public Material selectedMaterial;
@@ -49,7 +51,7 @@ public class ControllerManager : MonoBehaviour {
 	          isLocationSelected = true;
 	       } else if (type == "discription") {
 	          isDiscriptionSelected = true;
-		  selectedObject.transform.FindChild("DiscriptionCanvas").gameObject.SetActive(true);
+		  showDiscription();
 	       }
 	       //ChangeQuadTexture();
 	    }
@@ -59,7 +61,7 @@ public class ControllerManager : MonoBehaviour {
          if (isLocationSelected == true) {
 	    goNextLocation();
 	 } else if (isDiscriptionSelected == true) {
-	    showDiscription();
+	    hideDiscription();
 	 }
       }
    }
@@ -74,8 +76,14 @@ public class ControllerManager : MonoBehaviour {
       isLocationSelected = false;
    }
 
-　 private void showDiscription() {
-      selectedObject.transform.FindChild("DiscriptionCanvas").gameObject.SetActive(false);
+   private void showDiscription () {
+      string discription_text = selectedObject.GetComponent<Discription>().getDiscriptionText();
+      discriptionText.text = discription_text;
+      discriptionCanvas.SetActive(true);
+   }
+
+　 private void hideDiscription() {
+      discriptionCanvas.SetActive(false);
       isDiscriptionSelected = false;
    }
 

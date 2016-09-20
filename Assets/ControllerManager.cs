@@ -21,6 +21,9 @@ public class ControllerManager : MonoBehaviour {
    private bool isLocationSelected;
    private bool isDiscriptionSelected;
 
+   private const string MATERIAL_PATH = "Materials/";
+   private GameObject hoveredObject;
+   
    // Use this for initialization
    void Start () {
    }
@@ -37,9 +40,29 @@ public class ControllerManager : MonoBehaviour {
       }
       controllerPivot.SetActive(true);
       Quaternion controller_orientation = GvrController.Orientation;
-      DisplayControllerPosition(controller_orientation);
+      //DisplayControllerPosition(controller_orientation);
       controllerPivot.transform.rotation = controller_orientation;
 
+         RaycastHit hitInfo;
+	 // rayDirection is a vector that points in the same direction as the controller is pointing.
+	 Vector3 rayDirection = GvrController.Orientation * Vector3.forward;
+	 if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
+	    if (hitInfo.collider != null && hitInfo.collider.gameObject != null) {
+	       GameObject obj = hitInfo.collider.gameObject;
+	       string type = obj.GetComponent<Type>().getType();
+	       messageText.text = obj.name;
+	       if (type == "location") {
+	          hoveredObject = obj;
+	          ChangeQuadTexture2();
+				       
+	       }
+	    }
+	 } else {
+	    ChangeQuadTexture();
+	    hoveredObject = null;
+	 }
+
+      /*
       if (GvrController.TouchDown) {
          RaycastHit hitInfo;
 	 Vector3 rayDirection = GvrController.Orientation * Vector3.forward;
@@ -56,18 +79,42 @@ public class ControllerManager : MonoBehaviour {
 	       //ChangeQuadTexture();
 	    }
 	 }
-      }
-      if (GvrController.TouchUp) {
+      } else if (GvrController.TouchUp) {
          if (isLocationSelected == true) {
 	    goNextLocation();
 	 } else if (isDiscriptionSelected == true) {
 	    hideDiscription();
 	 }
+      } else {
+         RaycastHit hitInfo;
+	 Vector3 rayDirection = GvrController.Orientation * Vector3.forward;
+	 if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
+	    if (hitInfo.collider && hitInfo.collider.gameObject) {
+	       GameObject obj = hitInfo.collider.gameObject;
+	       string type = obj.GetComponent<Type>().getType();
+	       if (type == "location") {
+	          hoveredObject = obj;
+	          ChangeQuadTexture2();
+	       }
+	    } else {
+	       ChangeQuadTexture();
+	       hoveredObject = null;
+	    }
+	 }
       }
+      */
    }
 
    private void ChangeQuadTexture () {
-      quad.GetComponent<Renderer>().material = selectedMaterial;
+      string material_name = "LocationNonHoveredMaterial";
+      Material material = Resources.Load<Material>(MATERIAL_PATH + material_name);
+      hoveredObject.GetComponent<Renderer>().material = material;
+   }
+
+   private void ChangeQuadTexture2 () {
+      string material_name = "LocationHoveredMaterial";
+      Material material = Resources.Load<Material>(MATERIAL_PATH + material_name);
+      hoveredObject.GetComponent<Renderer>().material = material;
    }
 
    private void goNextLocation () {

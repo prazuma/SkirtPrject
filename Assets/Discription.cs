@@ -15,4 +15,8 @@ public class Discription : Type {
    void Update () {
 	
    }
+
+   public string getDiscriptionText () {
+      return discription_text;
+   }
 }

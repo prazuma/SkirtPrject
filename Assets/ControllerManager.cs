@@ -43,6 +43,8 @@ public class ControllerManager : MonoBehaviour {
       RaycastHit hitInfo;
       // rayDirection is a vector that points in the same direction as the controller is pointing.
       Vector3 rayDirection = GvrController.Orientation * Vector3.forward;
+
+      // bool True if the ray intersects with a Collider, otherwise false.
       if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
          if (hitInfo.collider != null && hitInfo.collider.gameObject != null) {
 	    GameObject obj = hitInfo.collider.gameObject;
@@ -56,17 +58,19 @@ public class ControllerManager : MonoBehaviour {
 		  showDiscription();
 	       }
 	    } else {
+	       // If the cursor hover over a location area, a location area will be displayed.
 	       string type = obj.GetComponent<Type>().getType();
 	       if (type == "location") {
 	          hoveredObject = obj;
-		  ChangeLocationAreaMaterial(true);
+		  ShowLocationArea(true);
 	       }
 	    }
 	 }
       } else {
-         ChangeLocationAreaMaterial(false);
-	 hoveredObject = null;
-	 isLocationSelected = false;
+         // When the ray does not intersects with a collider, hide location area and disable to go to the next location.
+	 ShowLocationArea(false);
+         hoveredObject = null;
+         isLocationSelected = false;
       }
 
       if (GvrController.TouchUp) {
@@ -78,7 +82,7 @@ public class ControllerManager : MonoBehaviour {
       }
    }
 
-   private void ChangeLocationAreaMaterial (bool isLocationAreaHovered) {
+   private void ShowLocationArea (bool isLocationAreaHovered) {
       if (hoveredObject == null) {
          return;
       }

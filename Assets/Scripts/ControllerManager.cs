@@ -58,19 +58,16 @@ public class ControllerManager : MonoBehaviour {
 		  showDiscription();
 	       }
 	    } else {
-	       // If the cursor hover over a location area, a location area will be displayed.
-	       string type = obj.GetComponent<Type>().getType();
-	       if (type == "location") {
-	          hoveredObject = obj;
-		  ShowLocationArea(true);
-	       }
+	       // If the cursor hover over a location or discription area, a location area will be displayed or a discription area image will be changed.
+	       ChangeMaterialToHoveredMaterial(obj);
 	    }
 	 }
       } else {
-         // When the ray does not intersects with a collider, hide location area and disable to go to the next location.
-	 ShowLocationArea(false);
-         hoveredObject = null;
-         isLocationSelected = false;
+         // When the ray does not intersects with a collider,
+	 // hide location area and disable to go to the next location, and
+	 // change the image of discription area.
+	 ChangeMaterialToNonHoveredMaterial();
+	 isLocationSelected = false;
       }
 
       if (GvrController.TouchUp) {
@@ -82,18 +79,35 @@ public class ControllerManager : MonoBehaviour {
       }
    }
 
-   private void ShowLocationArea (bool isLocationAreaHovered) {
+   private void ChangeTexture (string material_name) {
       if (hoveredObject == null) {
          return;
       }
-      string material_name;
-      if (isLocationAreaHovered) {
-         material_name = "LocationHoveredMaterial";
-      } else {
-         material_name = "LocationNonHoveredMaterial";
-      }
       Material material = Resources.Load<Material>(MATERIAL_PATH + material_name);
       hoveredObject.GetComponent<Renderer>().material = material;
+   }
+
+   private void ChangeMaterialToHoveredMaterial (GameObject obj) {
+      hoveredObject = obj;
+      string type = hoveredObject.GetComponent<Type>().getType();
+      if (type == "location") {
+         ChangeTexture("LocationHoveredMaterial");
+      } else if (type == "discription") {
+         ChangeTexture("DiscriptionHoveredMaterial");
+      }
+   }
+
+   private void ChangeMaterialToNonHoveredMaterial () {
+      if (hoveredObject == null) {
+         return;
+      }
+      string type = hoveredObject.GetComponent<Type>().getType();
+      if (type == "location") {
+         ChangeTexture("LocationNonHoveredMaterial");
+      } else if (type == "discription") {
+         ChangeTexture("DiscriptionNonHoveredMaterial");
+      }
+      hoveredObject = null;
    }
 
    private void goNextLocation () {

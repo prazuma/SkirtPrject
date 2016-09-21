@@ -13,11 +13,9 @@ public class ControllerManager : MonoBehaviour {
    public Text discriptionText;
    public Fade fade;
 
-   public Material selectedMaterial;
-
    private GameObject selectedObject;
 
-   private string type;
+   //private string type;
    private bool isLocationSelected;
    private bool isDiscriptionSelected;
 
@@ -40,7 +38,6 @@ public class ControllerManager : MonoBehaviour {
       }
       controllerPivot.SetActive(true);
       Quaternion controller_orientation = GvrController.Orientation;
-      //DisplayControllerPosition(controller_orientation);
       controllerPivot.transform.rotation = controller_orientation;
 
       RaycastHit hitInfo;
@@ -62,12 +59,12 @@ public class ControllerManager : MonoBehaviour {
 	       string type = obj.GetComponent<Type>().getType();
 	       if (type == "location") {
 	          hoveredObject = obj;
-		  ChangeQuadTexture2();
+		  ChangeLocationAreaMaterial(true);
 	       }
 	    }
 	 }
       } else {
-         ChangeQuadTexture();
+         ChangeLocationAreaMaterial(false);
 	 hoveredObject = null;
       }
 
@@ -80,16 +77,16 @@ public class ControllerManager : MonoBehaviour {
       }
    }
 
-   private void ChangeQuadTexture () {
-      if (hoveredObject != null) {
-         string material_name = "LocationNonHoveredMaterial";
-         Material material = Resources.Load<Material>(MATERIAL_PATH + material_name);
-         hoveredObject.GetComponent<Renderer>().material = material;
+   private void ChangeLocationAreaMaterial (bool isLocationAreaHovered) {
+      if (hoveredObject == null) {
+         return;
       }
-   }
-
-   private void ChangeQuadTexture2 () {
-      string material_name = "LocationHoveredMaterial";
+      string material_name;
+      if (isLocationAreaHovered) {
+         material_name = "LocationHoveredMaterial";
+      } else {
+         material_name = "LocationNonHoveredMaterial";
+      }
       Material material = Resources.Load<Material>(MATERIAL_PATH + material_name);
       hoveredObject.GetComponent<Renderer>().material = material;
    }
@@ -121,7 +118,7 @@ public class ControllerManager : MonoBehaviour {
       // This is an example of how to process the controller's state to display a status message.
       switch (GvrController.State) {
          case GvrConnectionState.Connected:
-	    //messageCanvas.SetActive(false);
+	    messageCanvas.SetActive(false);
             break;
          case GvrConnectionState.Disconnected:
             messageText.text = "Controller disconnected.";

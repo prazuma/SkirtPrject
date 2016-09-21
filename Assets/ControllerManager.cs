@@ -66,6 +66,7 @@ public class ControllerManager : MonoBehaviour {
       } else {
          ChangeLocationAreaMaterial(false);
 	 hoveredObject = null;
+	 isLocationSelected = false;
       }
 
       if (GvrController.TouchUp) {

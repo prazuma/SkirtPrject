@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/futomomo.unity
+    path: Assets/Scenes/futomomo.unity
   - enabled: 1
-    path: Assets/futomomo2.unity
+    path: Assets/Scenes/futomomo2.unity

@@ -15,7 +15,6 @@ public class ControllerManager : MonoBehaviour {
 
    private GameObject selectedObject;
 
-   //private string type;
    private bool isLocationSelected;
    private bool isDiscriptionSelected;
 
@@ -25,7 +24,7 @@ public class ControllerManager : MonoBehaviour {
    // Use this for initialization
    void Start () {
    }
-	
+   
    // Update is called once per frame
    void Update () {
       UpdatePointer();
@@ -47,43 +46,43 @@ public class ControllerManager : MonoBehaviour {
       // bool True if the ray intersects with a Collider, otherwise false.
       if (Physics.Raycast(Vector3.zero, rayDirection, out hitInfo)) {
          if (hitInfo.collider != null && hitInfo.collider.gameObject != null) {
-	    GameObject obj = hitInfo.collider.gameObject;
-	    if (GvrController.TouchDown) {
-	       selectedObject = obj;
-	       string type = selectedObject.GetComponent<Type>().getType();
-	       if (type == "location") {
-	          isLocationSelected = true;
-	       } else if (type == "discription") {
-	          isDiscriptionSelected = true;
-		  showDiscription();
-	       }
-	    } else {
-	       // If the cursor hover over a location or discription area, a location area will be displayed or a discription area image will be changed.
-	       ChangeMaterialToHoveredMaterial(obj);
-	    }
-	 }
+            GameObject obj = hitInfo.collider.gameObject;
+            if (GvrController.TouchDown) {
+               selectedObject = obj;
+               string type = selectedObject.GetComponent<Type>().getType();
+               if (type == "location") {
+                  isLocationSelected = true;
+               } else if (type == "discription") {
+                  isDiscriptionSelected = true;
+                  showDiscription();
+               }
+            } else {
+               // If the cursor hover over a location or discription area, a location area will be displayed or a discription area image will be changed.
+               ChangeMaterialToHoveredMaterial(obj);
+            }
+         }
       } else {
          // When the ray does not intersects with a collider,
-	 // hide location area and disable to go to the next location, and
-	 // change the image of discription area.
-	 ChangeMaterialToNonHoveredMaterial();
-	 isLocationSelected = false;
+         // hide location area and disable to go to the next location, and
+         // change the image of discription area.
+         ChangeMaterialToNonHoveredMaterial();
+         isLocationSelected = false;
       }
 
       if (GvrController.TouchUp) {
          if (isLocationSelected == true) {
-	    goNextLocation();
-	 } else if (isDiscriptionSelected == true) {
-	    hideDiscription();
-	 }
+            goNextLocation();
+         } else if (isDiscriptionSelected == true) {
+            hideDiscription();
+         }
       }
    }
 
-   private void ChangeTexture (string material_name) {
+   private void ChangeTexture (string materialName) {
       if (hoveredObject == null) {
          return;
       }
-      Material material = Resources.Load<Material>(MATERIAL_PATH + material_name);
+      Material material = Resources.Load<Material>(MATERIAL_PATH + materialName);
       hoveredObject.GetComponent<Renderer>().material = material;
    }
 
@@ -137,7 +136,7 @@ public class ControllerManager : MonoBehaviour {
       // This is an example of how to process the controller's state to display a status message.
       switch (GvrController.State) {
          case GvrConnectionState.Connected:
-	    messageCanvas.SetActive(false);
+            messageCanvas.SetActive(false);
             break;
          case GvrConnectionState.Disconnected:
             messageText.text = "Controller disconnected.";

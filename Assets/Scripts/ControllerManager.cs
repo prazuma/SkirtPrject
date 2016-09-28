@@ -13,6 +13,8 @@ public class ControllerManager : MonoBehaviour {
    public Text discriptionText;
    public Fade fade;
 
+   public GameObject skirt;
+
    private GameObject selectedObject;
 
    private bool isLocationSelected;
@@ -29,6 +31,7 @@ public class ControllerManager : MonoBehaviour {
    void Update () {
       UpdatePointer();
       UpdateStatusMessage();
+      getSkirt();
    }
 
    private void UpdatePointer () {
@@ -56,6 +59,9 @@ public class ControllerManager : MonoBehaviour {
                   isDiscriptionSelected = true;
                   showDiscription();
                }
+	       if (selectedObject.name == "PronamaChan") {
+	          getSkirt();
+	       }
             } else {
                // If the cursor hover over a location or discription area, a location area will be displayed or a discription area image will be changed.
                ChangeMaterialToHoveredMaterial(obj);
@@ -76,6 +82,10 @@ public class ControllerManager : MonoBehaviour {
             hideDiscription();
          }
       }
+   }
+
+   private void getSkirt () {
+      skirt.transform.rotation = Quaternion.Euler(80, 0, 0);
    }
 
    private void ChangeTexture (string materialName) {
